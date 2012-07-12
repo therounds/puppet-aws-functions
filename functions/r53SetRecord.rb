@@ -2,7 +2,12 @@ require 'rubygems'
 require 'fog'
 
 module Puppet::Parser::Functions
-  newfunction(:r53SetRecord) do |args|
+  newfunction(:r53SetRecord, :doc => <<-EOS
+    Sets or updates a record in Route 53 with the parameters
+    zone, name, value, type, and ttl. Type is record type, ttl
+    is in seconds. All DNS names must be ended with a period.
+    EOS
+             ) do |args|
     Puppet::Parser::Functions.autoloader.loadall
     # all dns names must end with a period
     params = {}
@@ -27,18 +32,27 @@ module Puppet::Parser::Functions
     @record = @zone.records.all(:max_items =>'1', :name => params[:name]) {
       |r| r.name == params[:name] }[0]
 
-    if not @record.name == params[:name]
-      function_notice(['Record does not exist. Creating it.'])
+    # Have to match on the name, because it will always return a result
+    # even a wrong one!
+    if @record.nil?
+      function_notice(["Record " + params[:name] +" does not exist. Creating it."])
       @zone.records.create(
         :value => params[:value],
         :name  => params[:name],
         :type  => params[:type],
         :ttl   => params[:ttl]
       )
-
+    elsif not @record.attributes[:name] == params[:name]
+      function_notice(["Record " + params[:name] +" does not exist. Creating it."])
+      @zone.records.create(
+        :value => params[:value],
+        :name  => params[:name],
+        :type  => params[:type],
+        :ttl   => params[:ttl]
+      )
       #check to see if the existing record is the same, if not destroy and create it
     elsif not @record.attributes[:value][0] == params[:value]
-      function_notice(['Record exists but differs. Recreating it.'])
+      function_notice(["Record " + params[:name] +" exists but differs. Recreating it."])
       @record.destroy
       @zone.records.create(
         :value => params[:value],
