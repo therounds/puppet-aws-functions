@@ -12,16 +12,20 @@ require 'open-uri'
 require 'timeout'
 
 def metadata(id = "")
-  open("http://169.254.169.254/latest/meta-data/#{id||=''}").read.
+  begin
+    open("http://169.254.169.254/latest/meta-data/#{id||=''}").read.
     split("\n").each do |o|
-    key = "#{id}#{o.gsub(/\=.*$/, '/')}"
-    if key[-1..-1] != '/'
-      value = open("http://169.254.169.254/latest/meta-data/#{key}").read.sub("\n", " ")
-      symbol = "ec2_#{key.gsub(/\-|\//, '_')}".to_sym
-      Facter.add(symbol) { setcode { value } }
-    else
-      metadata(key)
+      key = "#{id}#{o.gsub(/\=.*$/, '/')}"
+      if key[-1..-1] != '/'
+        value = open("http://169.254.169.254/latest/meta-data/#{key}").read.sub("\n", " ")
+        symbol = "ec2_#{key.gsub(/\-|\//, '_')}".to_sym
+        Facter.add(symbol) { setcode { value } }
+      else
+        metadata(key)
+      end
     end
+  rescue
+    puts "ec2-metadata not loaded"
   end
 end
 
