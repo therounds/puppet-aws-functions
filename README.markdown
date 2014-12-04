@@ -30,25 +30,25 @@ There should be a yaml file at '/etc/puppet/fog_cred' in the format:
 Functions
 ---------
 
-### getIPsByTag(key,value) 
+### get_ips_by_tag($key, $value)
 
-returns a hash of the internal IP addresses of all instances matching the aws 
+returns a hash of the internal IP addresses of all instances matching the aws
 resource tag key, value, or key => value pair passed in. Useful for load balancer
 configs.
 
-### elbRegisterInstance('ELBNAME') 
+### elb_register_instance('ELBNAME')
 
-Registers the instance ID with the elb matching the passed name 
+Registers the instance ID with the elb matching the passed name
 
-### r53SetRecord($zone, $name, $value, $type, $ttl) 
+### r53_set_record($zone, $name, $value, $type, $ttl)
 
 creates a route53 dns record (all dns names must be passed with a . at the end)
 
-### s3getEtag($bucket, $key) 
+### s3_get_etag($bucket, $key)
 
 returns the Etag (md5) of an s3 object
 
-### s3getcurl($bucket, $key, $filename, $expires) 
+### s3_get_curl($bucket, $key, $filename, $expires)
 
 returns a curl command and signed url referencing the specified s3 object
 
@@ -61,7 +61,7 @@ returns a curl command and signed url referencing the specified s3 object
         exec { "s3getcurl[$bucket][$title][$name]":
                cwd => $cwd,
                unless => "echo \"$file_checksum  $name\" | md5sum -c --status",
-               command => s3getcurl($bucket, $title, $name, $expires),
+               command => s3_get_curl($bucket, $title, $name, $expires),
         }
     }
 
