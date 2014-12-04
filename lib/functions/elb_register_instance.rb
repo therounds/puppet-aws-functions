@@ -2,7 +2,7 @@ require 'rubygems'
 require 'fog'
 
 module Puppet::Parser::Functions
-  newfunction(:elbRegisterInstance, :doc => <<-EOS
+  newfunction(:elb_register_instance, :doc => <<-EOS
     Registers the instance with the named balancer.
     Note that you still need to add the appropriate
     Zone to the balancer before this works.

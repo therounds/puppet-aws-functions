@@ -2,7 +2,7 @@ require 'rubygems'
 require 'fog'
 
 module Puppet::Parser::Functions
-  newfunction(:getIPsByTag, :type => :rvalue, :doc => <<-EOS
+  newfunction(:get_ips_by_tag, :type => :rvalue, :doc => <<-EOS
     Returns a hash of instance-id => private-ip pairs for a given
     ec2 tag key, value or kv pair.
     EOS

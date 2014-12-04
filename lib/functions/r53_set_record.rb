@@ -2,7 +2,7 @@ require 'rubygems'
 require 'fog'
 
 module Puppet::Parser::Functions
-  newfunction(:r53SetRecord, :doc => <<-EOS
+  newfunction(:r53_set_record, :doc => <<-EOS
     Sets or updates a record in Route 53 with the parameters
     zone, name, value, type, and ttl. Type is record type, ttl
     is in seconds. All DNS names must be ended with a period.

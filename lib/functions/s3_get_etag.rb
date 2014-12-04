@@ -2,7 +2,7 @@ require 'rubygems'
 require 'fog'
 
 module Puppet::Parser::Functions
-  newfunction(:s3getEtag, :type => :rvalue, :doc => <<-EOS
+  newfunction(:s3_get_etag, :type => :rvalue, :doc => <<-EOS
     Returns the md5 hash of the s3 object specified by the bucket and key.
     Note: This will not work if the object was uploaded with Multipart.
     EOS

@@ -36,6 +36,6 @@ end
 
 Facter.add("puppet_master") do
 	setcode do
-	 %x{puppetd --configprint server}.chomp
+	 %x{puppet config print server}.chomp
 	end
 end
