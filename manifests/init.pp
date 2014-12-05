@@ -21,6 +21,9 @@ class awsfunctions (
   }
 
   if $manage_fog_gem {
+    package { 'rubygem-nokogiri':
+      ensure => present
+    } ->
     package { 'fog':
       ensure   => present,
       provider => 'gem'
