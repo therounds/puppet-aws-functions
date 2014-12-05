@@ -22,7 +22,8 @@ class awsfunctions (
 
   if $manage_fog_gem {
     package { 'fog':
-      ensure => present
+      ensure   => present,
+      provider => 'gem'
     }
   }
 
