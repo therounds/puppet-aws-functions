@@ -9,7 +9,7 @@ class awsfunctions (
   if $install_rubydevel {
     package { 'ruby-devel':
       ensure => present,
-      before => Package['fog']
+      before => Package['rubygems']
     }
   }
 
