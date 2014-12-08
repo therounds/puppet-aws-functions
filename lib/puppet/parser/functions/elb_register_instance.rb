@@ -14,6 +14,8 @@ module Puppet::Parser::Functions
     params[:elb] = args[0]
     params[:instanceid] = lookupvar('ec2_instance_id')
     params[:region] = lookupvar('ec2_placement_availability_zone').chop
+    # elb uses regions, not availability zones
+    params[:region] = params[:region][0..-2] if params[:region][-1] =~ /[[:alpha:]]/
 
     Fog.credentials_path = '/etc/puppet/fog_cred'
 
