@@ -32,7 +32,7 @@ class awsfunctions (
 
   file { '/etc/puppet/fog_cred':
     ensure  => file,
-    owner   => 'root',
+    owner   => 'puppet',
     group   => 'root',
     mode    => '0640',
     content => template('awsfunctions/fog_cred.erb')
